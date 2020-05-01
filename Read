@@ -1,0 +1,11 @@
+This file was made in R using R Markdown for a class project. The data used was downloaded from: 
+https://www.goodcarbadcar.net/2019-us-vehicle-sales-figures-by-model/
+
+The website provided Auto sales by make and model for every month in 2019. I used R to clean up the data and format data tables in the
+correct form to work for the Google Vis charts I wanted to display.
+
+The file shows all makes and models rolled up to show how sales varied in 2019 each month. It also shows the top 10 makes to compare to
+eachother.
+
+There are sections for each Make to compare their models sales in 2019. You can also see how sales varied for the make by month in the line
+graphs. 
