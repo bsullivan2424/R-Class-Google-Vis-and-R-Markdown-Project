@@ -1,0 +1,860 @@
+---
+title: "2019 US Auto Sales by Make"
+author: "Brittany Sullivan"
+date: "4/29/2020"
+output: html_document
+
+---
+Source: <http://www.goodcarbadcar.net>
+(https://www.goodcarbadcar.net/2019-us-vehicle-sales-figures-by-model/)  
+Data pulled from site April 15, 2020.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(googleVis)
+library(dplyr)
+```
+
+```{r data, echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(fig.width=50, fig.height=50) 
+make<- read_csv("bymake.csv")
+Total<-read_csv("TotalSales.csv")
+TopTenMakes<-subset(Total,Make %in% c("Ford","Toyota","Chevrolet","Honda","Nissan","Jeep","Ram","Subaru","Hyundai","Kia"))
+TotalNoMake<-read_csv("TotalSalesnoMake.csv")
+TotalbyMakeModel<-read_csv("TotalbyMakeModel.csv")
+Acura<- subset(make,Make=="Acura")  
+Alfa<- subset(make,Make=="Alfa")          
+Audi<- subset(make,Make=="Audi")          
+BMW <- subset(make,Make=="BMW")          
+Buick <- subset(make,Make=="Buick")        
+Cadillac<- subset(make,Make=="Cadillac")      
+Chevrolet <- subset(make,Make=="Chevrolet")   
+Chrysler <- subset(make,Make=="Chrysler")     
+Dodge <- subset(make,Make=="Dodge")        
+Fiat <- subset(make,Make=="Fiat")         
+Ford <- subset(make,Make=="Ford")         
+Genesis <- subset(make,Make=="Genesis")      
+GMC  <- subset(make,Make=="GMC")         
+Honda<- subset(make,Make=="Honda")        
+Hyundai <- subset(make,Make=="Hyundai")      
+Infiniti<- subset(make,Make=="Infiniti")      
+Jaguar <- subset(make,Make=="Jaguar")       
+Jeep <- subset(make,Make=="Jeep")         
+Kia <- subset(make,Make=="Kia")          
+LandRover <- subset(make,Make=="LandRover")    
+Lexus  <- subset(make,Make=="Lexus")      
+Lincoln  <- subset(make,Make=="Lincoln")     
+Mazda  <- subset(make,Make=="Mazda")       
+MercedesBenz <- subset(make,Make=="Mercedes-Benz")
+Mini<- subset(make,Make=="Mini")          
+Mitsubishi<- subset(make,Make=="Mitsubishi")    
+Nissan<- subset(make,Make=="Nissan")        
+Porsche<- subset(make,Make=="Porsche")      
+Ram<- subset(make,Make=="Ram")           
+Smart<- subset(make,Make=="Smart")         
+Subaru<- subset(make,Make=="Subaru")        
+Tesla<- subset(make,Make=="Tesla")         
+Toyota<- subset(make,Make=="Toyota")        
+Volkswagen<- subset(make,Make=="Volkswagen")    
+Volvo<- subset(make,Make=="Volvo") 
+AcuraModels<-subset(TotalbyMakeModel,Make=="Acura")
+AlfaModels<-subset(TotalbyMakeModel,Make=="Alfa")
+AudiModels<-subset(TotalbyMakeModel,Make=="Audi")
+BMWModels<-subset(TotalbyMakeModel,Make=="BMW")
+BuickModels<-subset(TotalbyMakeModel,Make=="Buick")
+CadillacModels<-subset(TotalbyMakeModel,Make=="Cadillac")
+ChevroletModels<-subset(TotalbyMakeModel,Make=="Chevrolet")
+ChryslerModels<-subset(TotalbyMakeModel,Make=="Chrysler")
+DodgeModels<-subset(TotalbyMakeModel,Make=="Dodge")
+FiatModels<-subset(TotalbyMakeModel,Make=="Fiat")
+FordModels<-subset(TotalbyMakeModel,Make=="Ford")
+GenesisModels<-subset(TotalbyMakeModel,Make=="Genesis")
+GMCModels<-subset(TotalbyMakeModel,Make=="GMC")
+HondaModels<-subset(TotalbyMakeModel,Make=="Honda")
+HyundaiModels<-subset(TotalbyMakeModel,Make=="Hyundai")
+InfinitiModels<-subset(TotalbyMakeModel,Make=="Infiniti")
+JaguarModels<-subset(TotalbyMakeModel,Make=="Jaguar")
+JeepModels<-subset(TotalbyMakeModel,Make=="Jeep")
+KiaModels<-subset(TotalbyMakeModel,Make=="Kia")
+LandRoverModels<-subset(TotalbyMakeModel,Make=="LandRover")
+LexusModels<-subset(TotalbyMakeModel,Make=="Lexus")
+LincolnModels<-subset(TotalbyMakeModel,Make=="Lincoln")
+MazdaModels<-subset(TotalbyMakeModel,Make=="Mazda")
+MercedesBenzModels<-subset(TotalbyMakeModel,Make=="Mercedes-Benz")
+MiniModels<-subset(TotalbyMakeModel,Make=="Mini")
+MitsubishiModels<-subset(TotalbyMakeModel,Make=="Mitsubishi")
+NissanModels<-subset(TotalbyMakeModel,Make=="Nissan")
+PorscheModels<-subset(TotalbyMakeModel,Make=="Porsche")
+RamModels<-subset(TotalbyMakeModel,Make=="Ram")
+SmartModels<-subset(TotalbyMakeModel,Make=="Smart")
+SubaruModels<-subset(TotalbyMakeModel,Make=="Subaru")
+TeslaModels<-subset(TotalbyMakeModel,Make=="Tesla")
+ToyotaModels<-subset(TotalbyMakeModel,Make=="Toyota")
+VolkswagenModels<-subset(TotalbyMakeModel,Make=="Volkswagen")
+VolvoModels<-subset(TotalbyMakeModel,Make=="Volvo")
+```
+<a id="Make"></a>  
+
+### Links to Make Sections 
+[Acura](#Acura) | 
+[Alfa](#Alfa) | 
+[Audi](#Audi) | 
+[BMW](#BMW) | 
+[Buick](#Buick) | 
+[Cadillac](#Cadillac) | 
+[Chevrolet](#Chevrolet) |
+[Chrysler](#Chrysler) | 
+[Dodge](#Dodge) | 
+[Fiat](#Fiat) | 
+[Ford](#Ford) | 
+[Genesis](#Genesis) | 
+[GMC](#GMC) | 
+[Honda](#Honda) |
+[Hyundai](#Hyundai) | 
+[Infiniti](#Infiniti) |
+[Jaguar](#Jaguar) | 
+[Jeep](#Jeep) |
+[Kia](#Kia) |  
+
+
+[LandRover](#LandRover) | 
+[Lexus](#Lexus) |
+[Lincoln](#Lincoln) | 
+[Mazda](#Mazda) | 
+[MercedesBenz](#MercedesBenz) | 
+[Mini](#Mini) | 
+[Mitsubishi](#Mitsubishi) | 
+[Nissan](#Nissan) | 
+[Porsche](#Porsche) |
+[Ram](#Ram) | 
+[Smart](#Smart) | 
+[Subaru](#Subaru) | 
+[Tesla](#Tesla) | 
+[Toyota](#Toyota) | 
+[Volkswagen](#Volkswagen) | 
+[Volvo](#Volvo) | 
+
+
+
+
+# All Makes
+```{r geo, echo=FALSE, warning=FALSE}
+LineAll <-  gvisLineChart(TotalNoMake, "Month", c("Total Sales"),
+                        options=list(gvis.editor="Edit me!",title="Total 2019 Auto Sales by Month"))
+ColumnAll <- gvisColumnChart(TopTenMakes,
+                        options=list(title="Top 10 Makes 2019 Sales"))
+
+
+```
+
+```{r results='asis', echo=FALSE}
+print(LineAll, tab='chart')
+```
+
+```{r results='asis', echo=FALSE}
+print(ColumnAll, tab='chart')
+```
+
+<a id="Acura"></a>  
+
+# Acura
+```{r acura, echo=FALSE, warning=FALSE}
+
+LineAcura<-gvisLineChart(Acura, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Acura Sales by Month"))
+ColumnAcura <- gvisColumnChart(AcuraModels,"Model",
+                        options=list(title="Acura Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineAcura, tab='chart')
+print(ColumnAcura, tab='chart')
+```
+<!--Text comment-->    
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Alfa"></a>  
+
+# Alfa
+```{r Alfa, echo=FALSE, warning=FALSE}
+
+LineAlfa<-gvisLineChart(Alfa, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Alfa Sales by Month"))
+ColumnAlfa <- gvisColumnChart(AlfaModels,"Model",
+                        options=list(title="Alfa Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineAlfa, tab='chart')
+print(ColumnAlfa, tab='chart')
+```
+<!--Text comment-->      
+<!--Text comment-->   
+[Back to Top](#Make) 
+
+<a id="Audi"></a>  
+
+# Audi
+```{r Audi, echo=FALSE, warning=FALSE}
+
+LineAudi<-gvisLineChart(Audi, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Audi Sales by Month"))
+ColumnAudi <- gvisColumnChart(AudiModels,"Model",
+                        options=list(title="Audi Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineAudi, tab='chart')
+print(ColumnAudi, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+
+<a id="BMW"></a>  
+
+# BMW
+```{r BMW, echo=FALSE, warning=FALSE}
+
+LineBMW<-gvisLineChart(BMW, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 BMW Sales by Month"))
+ColumnBMW <- gvisColumnChart(BMWModels,"Model",
+                        options=list(title="BMW Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineBMW, tab='chart')
+print(ColumnBMW, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Buick"></a>  
+
+# Buick
+```{r Buick, echo=FALSE, warning=FALSE}
+
+LineBuick<-gvisLineChart(Buick, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Buick Sales by Month"))
+ColumnBuick <- gvisColumnChart(BuickModels,"Model",
+                        options=list(title="Buick Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineBuick, tab='chart')
+print(ColumnBuick, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Cadillac"></a>  
+
+# Cadillac
+```{r Cadillac, echo=FALSE, warning=FALSE}
+
+LineCadillac<-gvisLineChart(Cadillac, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Cadillac Sales by Month"))
+ColumnCadillac <- gvisColumnChart(CadillacModels,"Model",
+                        options=list(title="Cadillac Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineCadillac, tab='chart')
+print(ColumnCadillac, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Chevrolet"></a>  
+
+# Chevrolet
+```{r Chevrolet, echo=FALSE, warning=FALSE}
+
+LineChevrolet<-gvisLineChart(Chevrolet, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Chevrolet Sales by Month"))
+ColumnChevrolet <- gvisColumnChart(ChevroletModels,"Model",
+                        options=list(title="Chevrolet Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineChevrolet, tab='chart')
+print(ColumnChevrolet, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Chrysler"></a>  
+
+# Chrysler
+```{r Chrysler, echo=FALSE, warning=FALSE}
+
+LineChrysler<-gvisLineChart(Chrysler, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Chrysler Sales by Month"))
+ColumnChrysler <- gvisColumnChart(ChryslerModels,"Model",
+                        options=list(title="Chrysler Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineChrysler, tab='chart')
+print(ColumnChrysler, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+
+<a id="Dodge"></a>  
+
+# Dodge
+```{r Dodge, echo=FALSE, warning=FALSE}
+
+LineDodge<-gvisLineChart(Dodge, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Dodge Sales by Month"))
+ColumnDodge <- gvisColumnChart(DodgeModels,"Model",
+                        options=list(title="Dodge Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineDodge, tab='chart')
+print(ColumnDodge, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Fiat"></a>  
+
+# Fiat
+
+```{r Fiat, echo=FALSE, warning=FALSE}
+
+LineFiat<-gvisLineChart(Fiat, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Fiat Sales by Month"))
+ColumnFiat <- gvisColumnChart(FiatModels,"Model",
+                        options=list(title="Fiat Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineFiat, tab='chart')
+print(ColumnFiat, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Ford"></a>  
+
+# Ford
+
+```{r Ford, echo=FALSE, warning=FALSE}
+
+LineFord<-gvisLineChart(Ford, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Ford Sales by Month"))
+ColumnFord <- gvisColumnChart(FordModels,"Model",
+                        options=list(title="Ford Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineFord, tab='chart')
+print(ColumnFord, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Genesis"></a>  
+
+# Genesis
+
+```{r Genesis, echo=FALSE, warning=FALSE}
+
+LineGenesis<-gvisLineChart(Genesis, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Genesis Sales by Month"))
+ColumnGenesis <- gvisColumnChart(GenesisModels,"Model",
+                        options=list(title="Genesis Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineGenesis, tab='chart')
+print(ColumnGenesis, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="GMC"></a>  
+
+# GMC
+
+```{r GMC, echo=FALSE, warning=FALSE}
+
+LineGMC<-gvisLineChart(GMC, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 GMC Sales by Month"))
+ColumnGMC <- gvisColumnChart(GMCModels,"Model",
+                        options=list(title="GMC Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineGMC, tab='chart')
+print(ColumnGMC, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Honda"></a>  
+
+# Honda
+
+```{r Honda, echo=FALSE, warning=FALSE}
+
+LineHonda<-gvisLineChart(Honda, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Honda Sales by Month"))
+ColumnHonda <- gvisColumnChart(HondaModels,"Model",
+                        options=list(title="Honda Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineHonda, tab='chart')
+print(ColumnHonda, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Hyundai"></a>  
+
+# Hyundai
+
+```{r Hyundai, echo=FALSE, warning=FALSE}
+
+LineHyundai<-gvisLineChart(Hyundai, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Hyundai Sales by Month"))
+ColumnHyundai <- gvisColumnChart(HyundaiModels,"Model",
+                        options=list(title="Hyundai Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineHyundai, tab='chart')
+print(ColumnHyundai, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Infiniti"></a>  
+
+# Infiniti
+
+```{r Infiniti, echo=FALSE, warning=FALSE}
+
+LineInfiniti<-gvisLineChart(Infiniti, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Infiniti Sales by Month"))
+ColumnInfiniti <- gvisColumnChart(InfinitiModels,"Model",
+                        options=list(title="Infiniti Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineInfiniti, tab='chart')
+print(ColumnInfiniti, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Jaguar"></a>  
+
+# Jaguar
+
+```{r Jaguar, echo=FALSE, warning=FALSE}
+
+LineJaguar<-gvisLineChart(Jaguar, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Jaguar Sales by Month"))
+ColumnJaguar <- gvisColumnChart(JaguarModels,"Model",
+                        options=list(title="Jaguar Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineJaguar, tab='chart')
+print(ColumnJaguar, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Jeep"></a>  
+
+# Jeep
+
+```{r Jeep, echo=FALSE, warning=FALSE}
+
+LineJeep<-gvisLineChart(Jeep, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Jeep Sales by Month"))
+ColumnJeep <- gvisColumnChart(JeepModels,"Model",
+                        options=list(title="Jeep Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineJeep, tab='chart')
+print(ColumnJeep, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Kia"></a>  
+
+# Kia
+
+```{r Kia, echo=FALSE, warning=FALSE}
+
+LineKia<-gvisLineChart(Kia, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Kia Sales by Month"))
+ColumnKia <- gvisColumnChart(KiaModels,"Model",
+                        options=list(title="Kia Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineKia, tab='chart')
+print(ColumnKia, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="LandRover"></a>  
+
+# LandRover
+
+```{r LandRover, echo=FALSE, warning=FALSE}
+
+LineLandRover<-gvisLineChart(LandRover, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 LandRover Sales by Month"))
+ColumnLandRover <- gvisColumnChart(LandRoverModels,"Model",
+                        options=list(title="LandRover Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineLandRover, tab='chart')
+print(ColumnLandRover, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Lexus"></a>  
+
+# Lexus
+
+```{r Lexus, echo=FALSE, warning=FALSE}
+
+LineLexus<-gvisLineChart(Lexus, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Lexus Sales by Month"))
+ColumnLexus <- gvisColumnChart(LexusModels,"Model",
+                        options=list(title="Lexus Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineLexus, tab='chart')
+print(ColumnLexus, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Lincoln"></a>  
+
+# Lincoln
+
+```{r Lincoln, echo=FALSE, warning=FALSE}
+
+LineLincoln<-gvisLineChart(Lincoln, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Lincoln Sales by Month"))
+ColumnLincoln <- gvisColumnChart(LincolnModels,"Model",
+                        options=list(title="Lincoln Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineLincoln, tab='chart')
+print(ColumnLincoln, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Mazda"></a>  
+
+# Mazda
+
+```{r Mazda, echo=FALSE, warning=FALSE}
+
+LineMazda<-gvisLineChart(Mazda, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Mazda Sales by Month"))
+ColumnMazda <- gvisColumnChart(MazdaModels,"Model",
+                        options=list(title="Mazda Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineMazda, tab='chart')
+print(ColumnMazda, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="MercedesBenz"></a>  
+
+# Mercedes-Benz
+
+```{r MercedesBenz, echo=FALSE, warning=FALSE}
+
+LineMercedesBenz<-gvisLineChart(MercedesBenz, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 MercedesBenz Sales by Month"))
+ColumnMercedesBenz <- gvisColumnChart(MercedesBenzModels,"Model",
+                        options=list(title="MercedesBenz Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineMercedesBenz, tab='chart')
+print(ColumnMercedesBenz, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+
+<a id="Mini"></a>  
+
+# Mini
+
+```{r Mini, echo=FALSE, warning=FALSE}
+
+LineMini<-gvisLineChart(Mini, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Mini Sales by Month"))
+ColumnMini <- gvisColumnChart(MiniModels,"Model",
+                        options=list(title="Mini Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineMini, tab='chart')
+print(ColumnMini, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Mitsubishi"></a>  
+
+# Mitsubishi
+
+```{r Mitsubishi, echo=FALSE, warning=FALSE}
+
+LineMitsubishi<-gvisLineChart(Mitsubishi, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Mitsubishi Sales by Month"))
+ColumnMitsubishi <- gvisColumnChart(MitsubishiModels,"Model",
+                        options=list(title="Mitsubishi Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineMitsubishi, tab='chart')
+print(ColumnMitsubishi, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Nissan"></a>  
+
+# Nissan
+
+```{r Nissan, echo=FALSE, warning=FALSE}
+
+LineNissan<-gvisLineChart(Nissan, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Nissan Sales by Month"))
+ColumnNissan <- gvisColumnChart(NissanModels,"Model",
+                        options=list(title="Nissan Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineNissan, tab='chart')
+print(ColumnNissan, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+
+<a id="Porsche"></a>  
+
+# Porsche
+
+```{r Porsche, echo=FALSE, warning=FALSE}
+
+LinePorsche<-gvisLineChart(Porsche, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Porsche Sales by Month"))
+ColumnPorsche <- gvisColumnChart(PorscheModels,"Model",
+                        options=list(title="Porsche Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LinePorsche, tab='chart')
+print(ColumnPorsche, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Ram"></a>  
+
+# Ram
+
+```{r Ram, echo=FALSE, warning=FALSE}
+
+LineRam<-gvisLineChart(Ram, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Ram Sales by Month"))
+ColumnRam <- gvisColumnChart(RamModels,"Model",
+                        options=list(title="Ram Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineRam, tab='chart')
+print(ColumnRam, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Smart"></a>  
+
+# Smart
+
+```{r Smart, echo=FALSE, warning=FALSE}
+
+LineSmart<-gvisLineChart(Smart, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Smart Sales by Month"))
+ColumnSmart <- gvisColumnChart(SmartModels,"Model",
+                        options=list(title="Smart Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineSmart, tab='chart')
+print(ColumnSmart, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Subaru"></a>  
+
+# Subaru
+
+```{r Subaru, echo=FALSE, warning=FALSE}
+
+LineSubaru<-gvisLineChart(Subaru, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Subaru Sales by Month"))
+ColumnSubaru <- gvisColumnChart(SubaruModels,"Model",
+                        options=list(title="Subaru Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineSubaru, tab='chart')
+print(ColumnSubaru, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Tesla"></a>  
+
+# Tesla
+
+```{r Tesla, echo=FALSE, warning=FALSE}
+
+LineTesla<-gvisLineChart(Tesla, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Tesla Sales by Month"))
+ColumnTesla <- gvisColumnChart(TeslaModels,"Model",
+                        options=list(title="Tesla Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineTesla, tab='chart')
+print(ColumnTesla, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Toyota"></a>  
+
+# Toyota
+
+```{r Toyota, echo=FALSE, warning=FALSE}
+
+LineToyota<-gvisLineChart(Toyota, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Toyota Sales by Month"))
+ColumnToyota <- gvisColumnChart(ToyotaModels,"Model",
+                        options=list(title="Toyota Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineToyota, tab='chart')
+print(ColumnToyota, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+
+<a id="Volkswagen"></a>  
+
+# Volkswagen
+
+```{r Volkswagen, echo=FALSE, warning=FALSE}
+
+LineVolkswagen<-gvisLineChart(Volkswagen, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Volkswagen Sales by Month"))
+ColumnVolkswagen <- gvisColumnChart(VolkswagenModels,"Model",
+                        options=list(title="Volkswagen Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineVolkswagen, tab='chart')
+print(ColumnVolkswagen, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<a id="Volvo"></a>  
+
+# Volvo
+
+```{r Volvo, echo=FALSE, warning=FALSE}
+
+LineVolvo<-gvisLineChart(Volvo, "Month", c("Sales"),
+                       options=list(gvis.editor="Edit me!",title="2019 Volvo Sales by Month"))
+ColumnVolvo <- gvisColumnChart(VolvoModels,"Model",
+                        options=list(title="Volvo Sales by Model"))
+```
+
+```{r results='asis', echo=FALSE}
+print(LineVolvo, tab='chart')
+print(ColumnVolvo, tab='chart')
+```
+<!--Text comment-->  
+<!--Text comment-->  
+[Back to Top](#Make) 
+
+<!--Text comment-->  
+<!--Text comment-->  
+<!--Text comment-->  
+Source: <http://www.goodcarbadcar.net>
+[link](https://www.goodcarbadcar.net/2019-us-vehicle-sales-figures-by-model/)
+Data pulled from site April 15, 2020.
